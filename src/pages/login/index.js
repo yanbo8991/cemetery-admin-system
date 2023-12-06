@@ -21,7 +21,7 @@ function Login() {
         }));
     };
 
-    // 登录按钮回调
+    // Login按钮回调：请求判断用户状态
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(userInfo)
