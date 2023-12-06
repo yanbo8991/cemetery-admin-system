@@ -1,3 +1,4 @@
+// 首页组件
 const Home = () => (
     <div className='Home'>
         home page
