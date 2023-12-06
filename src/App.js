@@ -1,14 +1,13 @@
-// 通常用于作为应用的主要组件
 import './App.css';
+import CreateRoutes from './routes';
+import { BrowserRouter as Router } from 'react-router-dom';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        11
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <CreateRoutes />
+        </Router>
+    );
 }
-
 export default App;
