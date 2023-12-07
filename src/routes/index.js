@@ -14,9 +14,9 @@ function CreateRoutes() {
       <Route path='/login' element={<Login />} />
       <Route path='/home/*' element={<Home />} />
       <Route path='/register' element={<Register />} />
-      <Route path='/customerList' element={<CustomerList />} />
-      <Route path='/deadList' element={<DeadList />} />
-      <Route path='/transactionList' element={<TransactionList />} />
+      <Route path='/home/customerList' element={<CustomerList />} />
+      <Route path='/home/deadList' element={<DeadList />} />
+      <Route path='/home/transactionList' element={<TransactionList />} />
 
       <Route path='/' element={<Navigate to='/login' />} />
     </Routes>
