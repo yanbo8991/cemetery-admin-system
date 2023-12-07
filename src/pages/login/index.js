@@ -42,35 +42,35 @@ function Login() {
     };
 
     return (
-            <div className="login-container">
-                <h2>Login</h2>
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="text"
-                        name="username"
-                        required
-                        value={userInfo.username}
-                        onChange={handleChange}
-                    />
+        <div className="login-container">
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="email">Email:</label>
+                <input
+                    type="text"
+                    name="username"
+                    required
+                    value={userInfo.username}
+                    onChange={handleChange}
+                />
 
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        name="password"
-                        required
-                        value={userInfo.password}
-                        onChange={handleChange}
-                    />
+                <label htmlFor="password">Password:</label>
+                <input
+                    type="password"
+                    name="password"
+                    required
+                    value={userInfo.password}
+                    onChange={handleChange}
+                />
 
-                    <button type="submit">Login</button>
-                </form>
+                <button type="submit">Login</button>
+            </form>
 
-                <p>
-                    Don't have an account? <Link to="/register">Register</Link>
-                </p>
-            </div>
-        );
+            <p>
+                Don't have an account? <Link to="/register">Register</Link>
+            </p>
+        </div>
+    );
 }
 
 export default Login;
