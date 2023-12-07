@@ -1,22 +1,39 @@
-// src/pages/home/index.js
-
 import React, { useState } from 'react'
 import { Layout, Menu, Dropdown, Button } from 'antd'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   UserOutlined,
-  RadarChartOutlined,
-  PayCircleOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
 } from '@ant-design/icons'
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom'
+import CustomerList from '../customerList/index'
+import DeadList from '../deadList/index'
 import TransactionList from '../transactionList/index'
-
 import './index.scss'
 
 const { Header, Sider, Content, Footer } = Layout
+const { SubMenu } = Menu
 
 const Home = () => {
   const [collapsed, setCollapsed] = useState(false)
+  const navigate = useNavigate() // 获取 navigate 函数
+
+  const handleMenuClick = (key) => {
+    // 根据点击的 key 进行不同的处理
+    switch (key) {
+      case 'customerList':
+      case 'deadList':
+      case 'transactionList':
+        // 使用 navigate 进行路由导航
+        navigate(`/home/${key}`)
+        break
+      // 可以根据需要添加其他处理逻辑
+      default:
+        break
+    }
+  }
 
   const toggle = () => {
     setCollapsed(!collapsed)
@@ -24,12 +41,13 @@ const Home = () => {
 
   // Mock user data
   const user = {
-    username: localStorage.getItem('userName'),
+    username: 'John Doe',
   }
 
   const menu = (
     <Menu>
-      <Menu.Item key='1'>注销登录</Menu.Item>
+      <Menu.Item key='1'>修改密码</Menu.Item>
+      <Menu.Item key='2'>注销</Menu.Item>
     </Menu>
   )
 
@@ -37,17 +55,19 @@ const Home = () => {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className='logo' />
-        <div style={{ color: '#FFF', fontSize: '20px', margin: '45px 0' }}>
-          墓地管理系统
-        </div>
-        <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>
-          <Menu.Item key='1' icon={<UserOutlined />}>
+        <Menu
+          theme='dark'
+          mode='inline'
+          defaultSelectedKeys={['1']}
+          onClick={(e) => handleMenuClick(e.key)}
+        >
+          <Menu.Item key='customerList' icon={<UserOutlined />}>
             顾客信息列表
           </Menu.Item>
-          <Menu.Item key='2' icon={<RadarChartOutlined />}>
+          <Menu.Item key='deadList' icon={<UserOutlined />}>
             死者信息列表
           </Menu.Item>
-          <Menu.Item key='3' icon={<PayCircleOutlined />}>
+          <Menu.Item key='transactionList' icon={<UserOutlined />}>
             交易信息列表
           </Menu.Item>
         </Menu>
@@ -66,7 +86,7 @@ const Home = () => {
           )}
           <div
             className='user-menu'
-            style={{ position: 'absolute', top: 0, right: 0 }}
+            style={{ position: 'absolute', top: 0, right: 10 }}
           >
             <Dropdown overlay={menu} placement='bottomRight' arrow>
               <Button>
@@ -76,12 +96,21 @@ const Home = () => {
           </div>
         </Header>
 
-        <Content style={{ margin: '24px 16px' }}>
+        <Content style={{ margin: '24px 16px', border: '1px solid #f5f5f5' }}>
           <div
             className='site-layout-background'
             style={{ padding: 24, minHeight: 360 }}
           >
-            <TransactionList />
+            <Routes>
+              <Route path='/customerList' element={<CustomerList />} />
+              <Route path='/deadList' element={<DeadList />} />
+              <Route path='/transactionList' element={<TransactionList />} />
+
+              <Route
+                path='/'
+                element={<Navigate replace to='/home/customerList' />}
+              />
+            </Routes>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
