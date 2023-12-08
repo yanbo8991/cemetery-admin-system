@@ -36,7 +36,7 @@ function Login() {
         localStorage.setItem('username', userInfo.username)
 
         // 登录成功后跳转到 Home 页面
-        navigate('/home')
+        navigate('/home/cemeteryInfo')
       })
       .catch((error) => {
         alert(error)
@@ -48,7 +48,7 @@ function Login() {
     <div className='login-container'>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='email'>Email:</label>
+        <label htmlFor='email'>账号:</label>
         <input
           type='text'
           name='username'
@@ -57,7 +57,7 @@ function Login() {
           onChange={handleChange}
         />
 
-        <label htmlFor='password'>Password:</label>
+        <label htmlFor='password'>密码:</label>
         <input
           type='password'
           name='password'
@@ -70,7 +70,7 @@ function Login() {
       </form>
 
       <p>
-        Don't have an account? <Link to='/register'>Register</Link>
+        还没有账号? <Link to='/register'>注册</Link>
       </p>
     </div>
   )

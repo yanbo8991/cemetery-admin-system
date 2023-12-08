@@ -38,16 +38,16 @@ function App() {
       render: (text) => <a>{text}</a>,
     },
 
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Space size='middle'>
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
-      ),
-    },
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: (_, record) => (
+    //     <Space size='middle'>
+    //       <a>Invite {record.name}</a>
+    //       <a>Delete</a>
+    //     </Space>
+    //   ),
+    // },
   ]
 
   const [data, setData] = useState([])

@@ -4,13 +4,14 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
 } from '@ant-design/icons'
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom'
 import CustomerList from '../customerList/index'
 import DeadList from '../deadList/index'
 import TransactionList from '../transactionList/index'
+import CemeteryInfo from '../cemeteryInfo/index'
+import CemeteryBoxInfo from '../cemeteryBoxInfo/index'
+
 import './index.scss'
 
 const { Header, Sider, Content, Footer } = Layout
@@ -23,6 +24,9 @@ const Home = () => {
   const handleMenuClick = (key) => {
     // 根据点击的 key 进行不同的处理
     switch (key) {
+      case 'cemeteryInfo':
+      case 'cemeteryBoxInfo':
+
       case 'customerList':
       case 'deadList':
       case 'transactionList':
@@ -41,31 +45,50 @@ const Home = () => {
 
   // Mock user data
   const user = {
-    username: 'John Doe',
+    username: localStorage.getItem('username'),
   }
 
   const menu = (
     <Menu>
       <Menu.Item key='1'>修改密码</Menu.Item>
-      <Menu.Item key='2'>注销</Menu.Item>
+      <Menu.Item
+        key='2'
+        onClick={() => {
+          localStorage.removeItem('token')
+          navigate('/login')
+        }}
+      >
+        注销
+      </Menu.Item>
     </Menu>
   )
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className='logo' />
+        <div
+          className='logo'
+          style={{ color: '#ffff', padding: '40px', fontSize: '20px' }}
+        >
+          智慧陵寝系统
+        </div>
         <Menu
           theme='dark'
           mode='inline'
           defaultSelectedKeys={['1']}
           onClick={(e) => handleMenuClick(e.key)}
         >
+          <Menu.Item key='cemeteryInfo' icon={<UserOutlined />}>
+            墓地分布
+          </Menu.Item>
+          <Menu.Item key='cemeteryBoxInfo' icon={<UserOutlined />}>
+            骨灰盒管理
+          </Menu.Item>
           <Menu.Item key='customerList' icon={<UserOutlined />}>
-            顾客信息列表
+            客户信息列表
           </Menu.Item>
           <Menu.Item key='deadList' icon={<UserOutlined />}>
-            死者信息列表
+            逝者信息列表
           </Menu.Item>
           <Menu.Item key='transactionList' icon={<UserOutlined />}>
             交易信息列表
@@ -102,6 +125,8 @@ const Home = () => {
             style={{ padding: 24, minHeight: 360 }}
           >
             <Routes>
+              <Route path='/cemeteryInfo' element={<CemeteryInfo />} />
+              <Route path='/cemeteryBoxInfo' element={<CemeteryBoxInfo />} />
               <Route path='/customerList' element={<CustomerList />} />
               <Route path='/deadList' element={<DeadList />} />
               <Route path='/transactionList' element={<TransactionList />} />
