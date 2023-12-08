@@ -21,6 +21,7 @@ const App = () => {
   const [data, setData] = useState([])
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedBoxData, setSelectedBoxData] = useState(null)
+  const [selectedData, setSelectedData] = useState(null)
 
   useEffect(() => {
     // 模拟接口调用
@@ -59,7 +60,6 @@ const App = () => {
                   flexDirection: 'column',
                   alignItems: 'flex-start',
                   justifyContent: 'center',
-                  cursor: item.cemeteryStatus ? 'not-allowed' : 'pointer',
                 }}
                 onClick={() => handleModalOpen(item)}
               >
@@ -78,14 +78,25 @@ const App = () => {
     )
   }
 
-  const CemeteryFormModal = ({
-    visible,
-    onCancel,
-    onFinish,
-    selectedBoxData,
-  }) => {
+  const CemeteryFormModal = ({ visible, onCancel, onFinish, detail }) => {
     const [form] = Form.useForm()
-
+    console.log(detail)
+    useEffect(() => {
+      // 模拟接口调用
+      const fetchData = async () => {
+        // 根据实际情况替换成真实的接口地址
+        request
+          .get(`/cemetery-info/query/${detail?.cemeteryCode}`)
+          .then((data) => {
+            form.setFieldsValue(data)
+          })
+          .catch((error) => {
+            alert(error)
+            console.error('Error:', error)
+          })
+      }
+      fetchData()
+    }, [selectedArea])
     return (
       <Modal
         title='购买墓地'
@@ -106,6 +117,7 @@ const App = () => {
             name='customerName'
             label='客户姓名'
             rules={[{ required: true, message: '请输入客户姓名' }]}
+            initialValues={selectedBoxData}
           >
             <Input />
           </Form.Item>
@@ -212,12 +224,11 @@ const App = () => {
   }
 
   const handleModalOpen = (item) => {
-    // 只有当cemeteryStatus为0时才能打开Modal
     console.log(item)
-    if (item.cemeteryStatus === 0) {
-      setSelectedBoxData(item)
-      setModalVisible(true)
-    }
+    // 只有当cemeteryStatus为0时才能打开Modal
+    setSelectedBoxData(item)
+    setSelectedData(item)
+    setModalVisible(true)
   }
 
   const handleModalCancel = () => {
@@ -284,6 +295,7 @@ const App = () => {
         visible={modalVisible}
         onCancel={handleModalCancel}
         onFinish={handleFormFinish}
+        detail={selectedData}
       />
     </div>
   )

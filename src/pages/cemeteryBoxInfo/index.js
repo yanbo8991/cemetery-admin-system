@@ -69,9 +69,9 @@ const App = () => {
                 onClick={() => handleModalOpen(item)}
               >
                 <div>序号：{item.id}</div>
-                <div>编号：{item.cemeteryCode}</div>
+                <div>编号：{item.boxCode}</div>
                 <div>地区：{item.area}</div>
-                <div>等级：{item.cemeteryLevel ? 'VIP' : '普通'}</div>
+                <div>等级：{item.boxLevel ? 'VIP' : '普通'}</div>
                 <div>价格：¥{item.price}</div>
               </div>
             </Col>
