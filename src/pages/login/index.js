@@ -46,7 +46,7 @@ function Login() {
 
   return (
     <div className='login-container'>
-      <h2>Login</h2>
+      <h2>欢迎登陆智慧陵寝平台</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor='email'>账号:</label>
         <input
