@@ -164,6 +164,9 @@ function App() {
             rules={[{ required: true, message: '请输入逝者逝世' }]}
           >
             <DatePicker
+              disabledDate={(current) =>
+                current && current > moment().endOf('day')
+              }
               format={dateFormat}
               value={moment(userDetails?.deadTime)}
             />

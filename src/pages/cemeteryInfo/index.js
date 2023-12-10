@@ -11,6 +11,7 @@ import {
   Radio,
   Button,
   message,
+  Collapse,
 } from 'antd'
 import request from '../../http/request.js'
 import moment from 'moment'
@@ -21,22 +22,21 @@ const App = () => {
   const [data, setData] = useState([])
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedBoxData, setSelectedBoxData] = useState(null)
-  const [selectedData, setSelectedData] = useState(null)
-
+  const [modalData, setModalData] = useState(null)
+  // 模拟接口调用
+  const fetchData = async () => {
+    // 根据实际情况替换成真实的接口地址
+    request
+      .get(`/cemetery-info/query/area/${selectedArea || 1}`)
+      .then((data) => {
+        setData(data)
+      })
+      .catch((error) => {
+        alert(error)
+        console.error('Error:', error)
+      })
+  }
   useEffect(() => {
-    // 模拟接口调用
-    const fetchData = async () => {
-      // 根据实际情况替换成真实的接口地址
-      request
-        .get(`/cemetery-info/query/area/${selectedArea || 1}`)
-        .then((data) => {
-          setData(data)
-        })
-        .catch((error) => {
-          alert(error)
-          console.error('Error:', error)
-        })
-    }
     fetchData()
   }, [selectedArea])
   const { Option } = Select
@@ -77,47 +77,57 @@ const App = () => {
       </Row>
     )
   }
-
+  const fetchBoxData = async (cemeteryCode) => {
+    try {
+      const response = await request.get(`/cemetery-info/query/${cemeteryCode}`)
+      setModalData(response)
+    } catch (error) {
+      alert(error)
+      console.error('Error:', error)
+      throw error
+    }
+  }
   const CemeteryFormModal = ({ visible, onCancel, onFinish, detail }) => {
+    console.log(detail, '111111')
     const [form] = Form.useForm()
-    console.log(detail)
-    useEffect(() => {
-      // 模拟接口调用
-      const fetchData = async () => {
-        // 根据实际情况替换成真实的接口地址
-        request
-          .get(`/cemetery-info/query/${detail?.cemeteryCode}`)
-          .then((data) => {
-            form.setFieldsValue(data)
-          })
-          .catch((error) => {
-            alert(error)
-            console.error('Error:', error)
-          })
-      }
-      fetchData()
-    }, [selectedArea])
     return (
       <Modal
         title='购买墓地'
         open={visible}
         onCancel={onCancel}
-        footer={[
-          <Button key='cancel' onClick={onCancel}>
-            取消{}
-          </Button>,
-          <Button key='submit' type='primary' onClick={() => form.submit()}>
-            提交
-          </Button>,
-        ]}
+        footer={
+          detail?.customerName
+            ? [
+                <Button key='cancel' onClick={onCancel}>
+                  取消{}
+                </Button>,
+              ]
+            : [
+                <Button key='cancel' onClick={onCancel}>
+                  取消{}
+                </Button>,
+                <Button
+                  key='submit'
+                  type='primary'
+                  onClick={() => form.submit()}
+                >
+                  提交
+                </Button>,
+              ]
+        }
       >
-        <Form form={form} onFinish={onFinish}>
+        <Form
+          form={form}
+          onFinish={onFinish}
+          initialValues={detail}
+          disabled={detail?.customerName}
+        >
           {/* 表单项根据实际情况修改 */}
           <Form.Item
             name='customerName'
             label='客户姓名'
             rules={[{ required: true, message: '请输入客户姓名' }]}
-            initialValues={selectedBoxData}
+            initialValues={modalData}
           >
             <Input />
           </Form.Item>
@@ -171,49 +181,94 @@ const App = () => {
           </Form.Item>
           <Form.Item
             label='选择逝者1出生日期'
-            name='birthTime1'
+            name={detail?.birthTime1 ? null : 'birthTime1'}
             rules={[{ required: true, message: '请选择逝者1出生日期' }]}
           >
-            <DatePicker format={dateFormat} />
+            <DatePicker
+              format={dateFormat}
+              value={detail?.birthTime1 ? moment(detail?.birthTime1) : null}
+              disabledDate={(current) =>
+                current && current > moment().endOf('day')
+              }
+            />
           </Form.Item>
           <Form.Item
             label='选择逝者1去世日期'
-            name='deadTime1'
+            name={detail?.deadTime1 ? null : 'deadTime1'}
             rules={[{ required: true, message: '请选择逝者1去世日期' }]}
           >
-            <DatePicker format={dateFormat} />
+            <DatePicker
+              disabledDate={(current) =>
+                current && current > moment().endOf('day')
+              }
+              format={dateFormat}
+              value={detail?.deadTime1 ? moment(detail?.deadTime1) : null}
+            />
           </Form.Item>
-          <Form.Item
-            name='deadName2'
-            label='逝者2姓名'
-            rules={[{ required: false, message: '请输入逝者2姓名' }]}
-          >
-            <Input />
-          </Form.Item>{' '}
-          <Form.Item
-            name='deadGender2'
-            label='逝者2性别'
-            rules={[{ required: false, message: '请选择逝者2性别' }]}
-          >
-            <Radio.Group>
-              <Radio value={1}>男</Radio>
-              <Radio value={0}>女</Radio>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item
-            label='选择逝者2出生日期'
-            name='birthTime2'
-            rules={[{ required: false, message: '请选择逝者2出生日期' }]}
-          >
-            <DatePicker format={dateFormat} />
-          </Form.Item>
-          <Form.Item
-            label='选择逝者2去世日期'
-            name='deadTime2'
-            rules={[{ required: false, message: '请选择逝者2去世日期' }]}
-          >
-            <DatePicker format={dateFormat} />
-          </Form.Item>
+          <Collapse
+            items={[
+              {
+                key: '1',
+                label: '点击添加+',
+                children: (
+                  <p>
+                    {' '}
+                    <Form.Item
+                      name='deadName2'
+                      label='逝者2姓名'
+                      rules={[{ required: false, message: '请输入逝者2姓名' }]}
+                    >
+                      <Input />
+                    </Form.Item>{' '}
+                    <Form.Item
+                      name='deadGender2'
+                      label='逝者2性别'
+                      rules={[{ required: false, message: '请选择逝者2性别' }]}
+                    >
+                      <Radio.Group>
+                        <Radio value={1}>男</Radio>
+                        <Radio value={0}>女</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+                    <Form.Item
+                      label='选择逝者2出生日期'
+                      name={detail?.birthTime2 ? null : 'birthTime2'}
+                      rules={[
+                        { required: false, message: '请选择逝者2出生日期' },
+                      ]}
+                    >
+                      <DatePicker
+                        disabledDate={(current) =>
+                          current && current > moment().endOf('day')
+                        }
+                        format={dateFormat}
+                        value={
+                          detail?.birthTime2 ? moment(detail?.birthTime2) : null
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      label='选择逝者2去世日期'
+                      name={detail?.deadTime2 ? null : 'deadTime2'}
+                      rules={[
+                        { required: false, message: '请选择逝者2去世日期' },
+                      ]}
+                    >
+                      <DatePicker
+                        disabledDate={(current) =>
+                          current && current > moment().endOf('day')
+                        }
+                        format={dateFormat}
+                        value={
+                          detail?.deadTime2 ? moment(detail?.deadTime2) : null
+                        }
+                      />
+                    </Form.Item>
+                  </p>
+                ),
+              },
+            ]}
+          ></Collapse>
         </Form>
       </Modal>
     )
@@ -223,12 +278,17 @@ const App = () => {
     setSelectedArea(value)
   }
 
-  const handleModalOpen = (item) => {
-    console.log(item)
-    // 只有当cemeteryStatus为0时才能打开Modal
-    setSelectedBoxData(item)
-    setSelectedData(item)
-    setModalVisible(true)
+  const handleModalOpen = async (item) => {
+    try {
+      // 通过 await 确保数据请求成功后再设置 Modal 可见性
+      await fetchBoxData(item?.cemeteryCode)
+
+      // 只有当 cemeteryStatus 为 0 时才能打开 Modal
+      setSelectedBoxData(item)
+      setModalVisible(true)
+    } catch (error) {
+      console.error('Error:', error)
+    }
   }
 
   const handleModalCancel = () => {
@@ -261,6 +321,7 @@ const App = () => {
       .then(() => {
         // 购买成功后的处理，可以根据实际情况刷新数据或进行其他操作
         message.success('成功购买')
+        fetchData()
         setModalVisible(false)
       })
       .catch((error) => {
@@ -295,7 +356,7 @@ const App = () => {
         visible={modalVisible}
         onCancel={handleModalCancel}
         onFinish={handleFormFinish}
-        detail={selectedData}
+        detail={modalData}
       />
     </div>
   )
