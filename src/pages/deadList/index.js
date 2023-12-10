@@ -210,7 +210,6 @@ function App() {
     setUpdateModalVisible(true)
   }
   const handleSelectedCustomerDetails2 = (item) => {
-    console.log(item)
     setSelectedCustomerDetails2(item)
   }
   const handleUpdateModalClose = () => {
@@ -237,7 +236,6 @@ function App() {
     request
       .get('/dead-info/list')
       .then((data) => {
-        console.log('data', data)
         setData(data)
         setFilteredData(data)
       })

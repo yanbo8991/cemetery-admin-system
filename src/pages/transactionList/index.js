@@ -55,7 +55,6 @@ function App() {
     request
       .get('/transaction-info/list')
       .then((data) => {
-        console.log('data', data)
         setData(data)
       })
       .catch((error) => {

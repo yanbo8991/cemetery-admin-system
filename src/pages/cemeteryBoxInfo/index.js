@@ -26,13 +26,11 @@ const App = () => {
   const [modalVisible, setModalVisible] = useState(false)
   // 调用
   const fetchData = async () => {
-    console.log(selectedArea, floor)
     request
       .get(
         `/cinerary-box-info/query?floor=${floor || 1}&area=${selectedArea || 1}`
       )
       .then((data) => {
-        console.log('data', data)
         setData(data)
       })
       .catch((error) => {
@@ -99,7 +97,6 @@ const App = () => {
   }
   const CemeteryFormModal = ({ visible, onCancel, onFinish, detail }) => {
     const [form] = Form.useForm()
-    console.log(detail)
     return (
       <Modal
         title='购买墓地'
@@ -289,7 +286,6 @@ const App = () => {
   }
 
   const handleModalOpen = async (item) => {
-    console.log(item)
     try {
       // 通过 await 确保数据请求成功后再设置 Modal 可见性
       await fetchBoxData(item?.boxCode)

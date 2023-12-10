@@ -88,7 +88,6 @@ const App = () => {
     }
   }
   const CemeteryFormModal = ({ visible, onCancel, onFinish, detail }) => {
-    console.log(detail, '111111')
     const [form] = Form.useForm()
     return (
       <Modal

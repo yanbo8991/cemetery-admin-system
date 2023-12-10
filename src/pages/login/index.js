@@ -26,12 +26,10 @@ function Login() {
   // Login按钮回调：请求判断用户状态
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('请求数据为', userInfo)
 
     request
       .post('/user-info/login', userInfo)
       .then((toekn) => {
-        console.log('token数据为', toekn)
         localStorage.setItem('token', toekn)
         localStorage.setItem('username', userInfo.username)
 
