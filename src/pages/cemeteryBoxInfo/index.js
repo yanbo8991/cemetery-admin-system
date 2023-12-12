@@ -99,7 +99,7 @@ const App = () => {
     const [form] = Form.useForm()
     return (
       <Modal
-        title='购买墓地'
+        title='购买长青园'
         open={visible}
         onCancel={onCancel}
         footer={

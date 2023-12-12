@@ -79,10 +79,10 @@ const Home = () => {
           onClick={(e) => handleMenuClick(e.key)}
         >
           <Menu.Item key='cemeteryInfo' icon={<UserOutlined />}>
-            墓地分布
+            长青园分布
           </Menu.Item>
           <Menu.Item key='cemeteryBoxInfo' icon={<UserOutlined />}>
-            骨灰盒管理
+            海会塔福寿位管理
           </Menu.Item>
           <Menu.Item key='customerList' icon={<UserOutlined />}>
             客户信息列表

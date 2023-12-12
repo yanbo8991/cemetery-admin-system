@@ -48,7 +48,7 @@ function App() {
     },
 
     {
-      title: '骨灰盒或墓地编号',
+      title: '海会塔福寿位或长青园编号',
       dataIndex: 'itemCode',
       key: 'itemCode',
     },
@@ -172,9 +172,9 @@ function App() {
             />
           </Form.Item>{' '}
           <Form.Item
-            label='骨灰盒编号'
+            label='海会塔福寿位编号'
             name='itemCode'
-            rules={[{ required: true, message: '请输入骨灰盒编号' }]}
+            rules={[{ required: true, message: '请输入海会塔福寿位编号' }]}
           >
             <AntdInput />
           </Form.Item>{' '}

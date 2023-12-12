@@ -16,7 +16,7 @@ function App() {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: '骨灰盒或墓地编号',
+      title: '海会塔福寿位或长青园编号',
       dataIndex: 'itemCode',
       key: 'itemCode',
     },
