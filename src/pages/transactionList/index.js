@@ -1,4 +1,4 @@
-import { Space, Table } from 'antd'
+import { Button, Space, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import request from '../../http/request.js'
 function App() {
@@ -7,27 +7,27 @@ function App() {
       title: '交易编号',
       dataIndex: 'transactionCode',
       key: 'transactionCode',
-      render: (text) => <a>{text}</a>,
+      render: (text) => <div>{text}</div>,
     },
     {
       title: '客户编号',
       dataIndex: 'customerCode',
       key: 'customerCode',
-      render: (text) => <a>{text}</a>,
+      render: (text) => <div>{text}</div>,
     },
     {
       title: '海会塔福寿位或长青园编号',
-      dataIndex: 'itemCode',
-      key: 'itemCode',
+      dataIndex: 'itemId',
+      key: 'itemId',
     },
     {
       title: '交易时间',
       dataIndex: 'transactionTime',
       key: 'transactionTime',
-      render: (text) => <a>{new Date(text).toLocaleString()}</a>,
+      render: (text) => <div>{new Date(text).toLocaleString()}</div>,
     },
     {
-      title: '销售人',
+      title: '销售',
       dataIndex: 'seller',
       key: 'seller',
     },
@@ -35,19 +35,19 @@ function App() {
       title: '实际出售金额',
       dataIndex: 'sellPrice',
       key: 'sellPrice',
-      render: (text) => <a>{text}</a>,
     },
 
-    // {
-    //   title: 'Action',
-    //   key: 'action',
-    //   render: (_, record) => (
-    //     <Space size='middle'>
-    //       <a>Invite {record.name}</a>
-    //       <a>Delete</a>
-    //     </Space>
-    //   ),
-    // },
+    {
+      title: '操作',
+      key: 'action',
+      render: (_, record) => (
+        <Space size='middle'>
+          <a>查看详情</a>
+          <a>修改信息</a>
+          <a>取消交易</a>
+        </Space>
+      ),
+    },
   ]
 
   const [data, setData] = useState([])
@@ -62,7 +62,21 @@ function App() {
         console.error('Error:', error)
       })
   }, [])
-  return <Table columns={columns} dataSource={data} />
+
+  const exportData = async () => {
+    request.post('/transaction-info/export').catch((error) => {
+      alert(error)
+      console.error('Error:', error)
+    })
+  }
+  return (
+    <div>
+      <Button style={{ marginBottom: '30px' }} onClick={exportData}>
+        导出
+      </Button>
+      <Table columns={columns} dataSource={data} />
+    </div>
+  )
 }
 
 export default App
