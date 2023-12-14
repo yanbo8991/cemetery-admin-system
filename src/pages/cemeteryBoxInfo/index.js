@@ -56,7 +56,7 @@ const App = () => {
               <div
                 style={{
                   width: '150px',
-                  height: '120px',
+                  height: '150px',
                   padding: '20px',
                   backgroundColor: item.boxStatus ? '#509296' : 'gray',
                   borderRadius: '4px',
@@ -67,10 +67,14 @@ const App = () => {
                 }}
                 onClick={() => handleModalOpen(item)}
               >
-                <div>序号：{item.id}</div>
-                <div>编号：{item.cemeteryCode}</div>
+                {/* <div>序号：{item.id}</div> */}
+                <div>编号：{item.boxCode}</div>
                 <div>地区：{item.area}</div>
-                <div>等级：{item.cemeteryLevel ? 'VIP' : '普通'}</div>
+                <div>
+                  楼层：{item.boxLevel > 0 ? item.boxLevel + '楼' : '走廊'}
+                </div>
+
+                <div>等级：{item.boxStatus ? 'VIP' : '普通'}</div>
                 <div>价格：¥{item.price}</div>
               </div>
             </Col>
@@ -288,7 +292,7 @@ const App = () => {
   const handleModalOpen = async (item) => {
     try {
       // 通过 await 确保数据请求成功后再设置 Modal 可见性
-      await fetchBoxData(item?.boxCode)
+      await fetchBoxData(item?.id)
 
       // 只有当 cemeteryStatus 为 0 时才能打开 Modal
       setSelectedBoxData(item)
@@ -304,8 +308,9 @@ const App = () => {
 
   const handleFormFinish = (values) => {
     // 将数据提交给接口
+    console.log(selectedBoxData)
     const requestData = {
-      itemCode: selectedBoxData.boxCode,
+      itemId: selectedBoxData.id,
       customerName: values.customerName,
       customerGender: values.customerGender,
       customerPhone: values.customerPhone, //客户电话号码

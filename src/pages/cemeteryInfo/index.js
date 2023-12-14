@@ -63,9 +63,13 @@ const App = () => {
                 }}
                 onClick={() => handleModalOpen(item)}
               >
-                <div>序号：{item.id}</div>
+                {/* <div>序号：{item.id}</div> */}
                 <div>编号：{item.cemeteryCode}</div>
                 <div>地区：{item.area}</div>
+                {/* <div>
+                  楼层：
+                  {item.cemeteryLevel > 0 ? item.cemeteryLevel + '楼' : '走廊'}
+                </div> */}
                 <div>等级：{item.cemeteryLevel ? 'VIP' : '普通'}</div>
                 <div>价格：¥{item.price}</div>
               </div>
@@ -280,7 +284,7 @@ const App = () => {
   const handleModalOpen = async (item) => {
     try {
       // 通过 await 确保数据请求成功后再设置 Modal 可见性
-      await fetchBoxData(item?.cemeteryCode)
+      await fetchBoxData(item?.id)
 
       // 只有当 cemeteryStatus 为 0 时才能打开 Modal
       setSelectedBoxData(item)
@@ -297,7 +301,7 @@ const App = () => {
   const handleFormFinish = (values) => {
     // 将数据提交给接口
     const requestData = {
-      itemCode: selectedBoxData.cemeteryCode,
+      itemId: selectedBoxData.id,
       customerName: values.customerName,
       customerGender: values.customerGender,
       customerPhone: values.customerPhone, //客户电话号码
