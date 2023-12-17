@@ -64,13 +64,29 @@ function App() {
         console.error('Error:', error)
       })
   }, [])
-
   const exportData = async () => {
-    request.post('/transaction-info/export', selectedRowKeys).catch((error) => {
-      alert(error)
+    try {
+      const response = await fetch('/transaction-info/test/export')
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'exportedData.csv' // 设置所需的文件名
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    } catch (error) {
       console.error('Error:', error)
-    })
+    }
   }
+
+  // const exportData = async () => {
+  //   // request.get('/transaction-info/test/export').catch((error) => {
+  //   //   alert(error)
+  //   //   console.error('Error:', error)
+  //   // })
+  //   window.location.href = '/transaction-info/test/export'
+  // }
   const rowSelection = {
     selectedRowKeys,
     onChange: (selectedRowKeys) => {
