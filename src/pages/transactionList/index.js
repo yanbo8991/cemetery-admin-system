@@ -51,6 +51,8 @@ function App() {
   ]
 
   const [data, setData] = useState([])
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+
   useEffect(() => {
     request
       .get('/transaction-info/list')
@@ -64,17 +66,32 @@ function App() {
   }, [])
 
   const exportData = async () => {
-    request.post('/transaction-info/export').catch((error) => {
+    request.post('/transaction-info/export', selectedRowKeys).catch((error) => {
       alert(error)
       console.error('Error:', error)
     })
   }
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: (selectedRowKeys) => {
+      setSelectedRowKeys(selectedRowKeys)
+      console.log(selectedRowKeys)
+    },
+  }
+
   return (
     <div>
       <Button style={{ marginBottom: '30px' }} onClick={exportData}>
         导出
       </Button>
-      <Table columns={columns} dataSource={data} />
+      <Table
+        rowSelection={{
+          ...rowSelection,
+        }}
+        rowKey={(record) => record.transactionCode} // Ensure a unique key for each row
+        columns={columns}
+        dataSource={data}
+      />
     </div>
   )
 }
