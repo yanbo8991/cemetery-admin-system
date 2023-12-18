@@ -64,53 +64,31 @@ function App() {
         console.error('Error:', error)
       })
   }, [])
+
   const exportData = async () => {
     try {
-      const response = await fetch('/transaction-info/test/export', {
-        method: 'GET',
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-        credentials: 'same-origin',
+      const response = await request.get('/transaction-info/test/export', {
+        responseType: 'blob',
       })
 
-      if (response.ok) {
-        const blob = await response.blob()
+      console.log(response) // 确保 response.data 包含实际的文件内容
 
-        // 设置响应头
-        const filename = 'exportedData.xls'
-        const contentDisposition = response.headers.get('content-disposition')
-        const contentType = response.headers.get('content-type')
-
-        // 创建一个包含 Excel 数据的 Blob 对象
-        const excelBlob = new Blob([blob], { type: contentType })
-
-        // 创建一个链接并模拟点击下载
-        const link = document.createElement('a')
-        link.href = window.URL.createObjectURL(excelBlob)
-        link.download = filename
-
-        // 添加到 DOM 并触发点击
-        document.body.appendChild(link)
-        link.click()
-
-        // 移除链接
-        document.body.removeChild(link)
-      } else {
-        console.error('Server response not okay')
-      }
+      const blob = new Blob([response], {
+        type: 'application/vnd.ms-excel',
+      }) // 使用正确的 MIME 类型
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = '666.xls'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
     } catch (error) {
+      alert(error)
       console.error('Error:', error)
     }
   }
 
-  // const exportData = async () => {
-  //   // request.get('/transaction-info/test/export').catch((error) => {
-  //   //   alert(error)
-  //   //   console.error('Error:', error)
-  //   // })
-  //   window.location.href = '/transaction-info/test/export'
-  // }
   const rowSelection = {
     selectedRowKeys,
     onChange: (selectedRowKeys) => {
