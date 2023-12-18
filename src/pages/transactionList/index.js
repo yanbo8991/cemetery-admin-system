@@ -68,9 +68,13 @@ function App() {
 
   const exportData = async () => {
     try {
-      const response = await request.get('/transaction-info/test/export', {
-        responseType: 'blob',
-      })
+      const response = await request.post(
+        '/transaction-info/export',
+        selectedRowKeys,
+        {
+          responseType: 'blob',
+        }
+      )
       const blob = new Blob([response.data], {
         type: 'application/vnd.ms-excel',
       }) // 使用正确的 MIME 类型
