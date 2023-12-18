@@ -345,10 +345,10 @@ const App = () => {
         <Option value={2}>东2</Option>
         <Option value={3}>东3</Option>
         <Option value={5}>东5</Option>
-        <Option value={6}>西6</Option>
-        <Option value={7}>西7</Option>
-        <Option value={8}>西8</Option>
-        <Option value={9}>西9</Option>
+        <Option value={-1}>西1</Option>
+        <Option value={-2}>西2</Option>
+        <Option value={-3}>西3</Option>
+        <Option value={-4}>西5</Option>
       </Select>
       <BoxList
         data={data}

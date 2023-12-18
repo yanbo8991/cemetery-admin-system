@@ -353,14 +353,10 @@ const App = () => {
         onChange={handleAreaChange}
         defaultValue={1}
       >
-        <Option value={1}>东1</Option>
-        <Option value={2}>东2</Option>
-        <Option value={3}>东3</Option>
-        <Option value={5}>东5</Option>
-        <Option value={6}>西6</Option>
-        <Option value={7}>西7</Option>
-        <Option value={8}>西8</Option>
-        <Option value={9}>西9</Option>
+        <Option value={1}>1区</Option>
+        <Option value={2}>2区</Option>
+        <Option value={3}>3区</Option>
+        <Option value={5}>5区</Option>
       </Select>
       <Select
         style={{ width: 120, marginBottom: '20px' }}
