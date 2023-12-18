@@ -1,6 +1,7 @@
 import { Button, Space, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import request from '../../http/request.js'
+
 function App() {
   const columns = [
     {
@@ -70,10 +71,7 @@ function App() {
       const response = await request.get('/transaction-info/test/export', {
         responseType: 'blob',
       })
-
-      console.log(response) // 确保 response.data 包含实际的文件内容
-
-      const blob = new Blob([response], {
+      const blob = new Blob([response.data], {
         type: 'application/vnd.ms-excel',
       }) // 使用正确的 MIME 类型
       const url = window.URL.createObjectURL(blob)

@@ -25,6 +25,7 @@ request.interceptors.response.use(
     let { code, message } = data
     if (code === 10000) return data.data // 接口返回数据成功
     if (code === 10001) return Promise.reject(message) // 接口返回数据失败
+    if (!code && response) return response
   },
   (error) => {
     // 对响应错误做些什么
