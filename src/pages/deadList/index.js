@@ -51,8 +51,8 @@ function App() {
 
     {
       title: '海会塔福寿位或长青园编号',
-      dataIndex: 'itemCode',
-      key: 'itemCode',
+      dataIndex: 'itemId',
+      key: 'itemId',
     },
     {
       title: '关系人编号',
@@ -184,7 +184,7 @@ function App() {
           </Form.Item>{' '}
           <Form.Item
             label='海会塔福寿位编号'
-            name='itemCode'
+            name='itemId'
             rules={[{ required: true, message: '请输入海会塔福寿位编号' }]}
           >
             <AntdInput disabled />

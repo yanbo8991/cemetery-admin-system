@@ -130,9 +130,10 @@ function App() {
         deadGender1: values?.deadGender1
           ? values?.deadGender1
           : modalData?.deadGender1,
-        deadGender2: values?.deadGender2
-          ? values?.deadGender2
-          : modalData?.deadGender2,
+        deadGender2:
+          values?.deadGender2 === 1 || values?.deadGender2 === 0
+            ? values?.deadGender2
+            : modalData?.deadGender2,
         deadName1: values?.deadName1 ? values?.deadName1 : modalData?.deadName1,
         deadName2: values?.deadName2 ? values?.deadName2 : modalData?.deadName2,
         deadTime1: values?.deadTime1 ? values?.deadTime1 : modalData?.deadTime1,
