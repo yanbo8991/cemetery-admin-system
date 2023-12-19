@@ -69,12 +69,10 @@ const App = () => {
               >
                 {/* <div>序号：{item.id}</div> */}
                 <div>编号：{item.boxCode}</div>
-                <div>地区：{item.area}</div>
-                <div>
-                  楼层：{item.boxLevel > 0 ? item.boxLevel + '楼' : '走廊'}
-                </div>
+                <div>地区：{item.area}区</div>
+                <div>楼层：{item.floor > 0 ? item.floor + '楼' : '走廊'}</div>
 
-                <div>等级：{item.boxStatus ? 'VIP' : '普通'}</div>
+                <div>等级：{item.boxLevel ? 'VIP' : '普通'}</div>
                 <div>价格：¥{item.price}</div>
               </div>
             </Col>

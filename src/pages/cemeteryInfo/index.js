@@ -65,7 +65,12 @@ const App = () => {
               >
                 {/* <div>序号：{item.id}</div> */}
                 <div>编号：{item.cemeteryCode}</div>
-                <div>地区：{item.area}</div>
+                <div>
+                  地区：
+                  {item.area < 0
+                    ? '西' + Math.abs(item.area)
+                    : '东' + item.area}
+                </div>
                 {/* <div>
                   楼层：
                   {item.cemeteryLevel > 0 ? item.cemeteryLevel + '楼' : '走廊'}
