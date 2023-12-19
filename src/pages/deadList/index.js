@@ -11,7 +11,9 @@ import {
 import React, { useEffect, useState } from 'react'
 import request from '../../http/request.js'
 import moment from 'moment'
-
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(customParseFormat)
 const dateFormat = 'YYYY/MM/DD'
 
 const { Search } = Input
@@ -142,8 +144,14 @@ function App() {
             rules={[{ required: true, message: '请输入出生日期' }]}
           >
             <DatePicker
+              disabledDate={(current) =>
+                current && current > moment().endOf('day')
+              }
+              defaultValue={dayjs(userDetails?.birthTime, dateFormat)}
               format={dateFormat}
-              value={moment(userDetails?.birthTime)}
+              onChange={(date) => {
+                form.setFieldsValue({ birthTime: date })
+              }}
             />
           </Form.Item>{' '}
           <Form.Item
@@ -161,14 +169,17 @@ function App() {
                 逝者逝世日期
               </span>
             }
-            rules={[{ required: true, message: '请输入逝者逝世' }]}
+            rules={[{ required: true, message: '请输入逝者逝世日期' }]}
           >
             <DatePicker
               disabledDate={(current) =>
                 current && current > moment().endOf('day')
               }
+              defaultValue={dayjs(userDetails?.deadTime, dateFormat)}
               format={dateFormat}
-              value={moment(userDetails?.deadTime)}
+              onChange={(date) => {
+                form.setFieldsValue({ deadTime: date })
+              }}
             />
           </Form.Item>{' '}
           <Form.Item
@@ -176,14 +187,14 @@ function App() {
             name='itemCode'
             rules={[{ required: true, message: '请输入海会塔福寿位编号' }]}
           >
-            <AntdInput />
+            <AntdInput disabled />
           </Form.Item>{' '}
           <Form.Item
             label='关系人编号'
             name='relatedPerson'
             rules={[{ required: true, message: '请输入关系人编号' }]}
           >
-            <AntdInput />
+            <AntdInput disabled />
           </Form.Item>{' '}
           <Form.Item
             label='逝者性别'
